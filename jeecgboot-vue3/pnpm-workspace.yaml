@@ -1,0 +1,6 @@
+allowBuilds:
+  '@logicflow/core': false
+  '@scarf/scarf': false
+  core-js: false
+  esbuild: false
+  vue-demi: false

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.warehouse.mapper.WarehouseLocationMapper">
+
+    <select id="selectByMainId" parameterType="java.lang.String" resultType="org.jeecg.modules.warehouse.entity.WarehouseLocation">
+        SELECT *
+        FROM  warehouse_location
+        WHERE warehouse_id = #{mainId}
+    </select>
+
+    <delete id="deleteByMainId" parameterType="java.lang.String">
+        DELETE
+        FROM  warehouse_location
+        WHERE warehouse_id = #{mainId}
+    </delete>
+
+</mapper>
