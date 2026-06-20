@@ -22,6 +22,33 @@
 import { getToken, get, post, put, del, assertSuccess, assertFail } from '../utils/test-helper';
 
 const MAIN_PATH = '{{MAIN_PATH}}';
+
+// ==================== 字典翻译验证工具 ====================
+
+/**
+ * 验证字典翻译字段值正确（无编码乱码）
+ * @param record   查询返回的记录
+ * @param field    字典翻译字段名，如 type_dictText
+ * @param expected 期望的中文值，如 "来料加工客户"
+ */
+function assertDictText(record: any, field: string, expected: string) {
+  const actual = record[field];
+  if (!actual || typeof actual !== 'string') {
+    throw new Error(`字典字段 ${field} 缺失或为空: ${JSON.stringify(actual)}`);
+  }
+  if (actual !== expected) {
+    const garbled = /[Ã¥Ã¤Ã¼Ã¶Ã±Ã©Ã¨ÃªÃ§Ã¢Ã®Ã´Ã»]/;
+    if (garbled.test(actual)) {
+      throw new Error(
+        `❌ 编码错误: ${field}="${actual}" 为乱码！` +
+        `期望="${expected}"。根因: UTF-8 被当作 Latin-1/ISO-8859-1 解码。`
+      );
+    }
+    throw new Error(
+      `字典翻译不匹配: ${field} 期望="${expected}"，实际="${actual}"`
+    );
+  }
+}
 const SUB_PATH  = '{{SUB_PATH}}';
 
 let TOKEN = '';
@@ -42,6 +69,7 @@ async function main() {
   await testAddMain();
   await testQueryById();
   await testEditMain();
+  await testDictResolution(); // 字典翻译验证 (如有字典字段)
   // 如有子表，取消注释以下:
   // await testListSubByMainId();
   // await testAddSub();
@@ -141,6 +169,22 @@ async function testDeleteBatch() {
   //   await del(MAIN_PATH + '/deleteBatch?ids=' + ids, TOKEN);
   // }
   console.log('  ✅\n');
+}
+
+/** 测试 X: 字典翻译验证 — 防止编码乱码 */
+async function testDictResolution() {
+  if (!mainId) { console.log('  ⏭️ 跳过（无数据）\n'); return; }
+  console.log('[X/Y] 字典翻译验证...');
+
+  const res = await get(MAIN_PATH + '/queryById?id=' + mainId, TOKEN);
+  assertSuccess(res);
+  const record = res.result;
+
+  // TODO: 对每个字典字段添加断言
+  // assertDictText(record, 'type_dictText', '预期中文值');
+  // assertDictText(record, 'status_dictText', '预期中文值');
+
+  console.log('  ✅ 字典翻译全部正确\n');
 }
 
 /** 测试 7: 边界条件 */

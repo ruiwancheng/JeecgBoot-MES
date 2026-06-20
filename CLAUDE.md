@@ -143,3 +143,31 @@ Online 模块采用元数据驱动架构，通过数据库配置表（`onl_cgfor
 - 前端 `@jeecg/online` 和 `@jeecg/aiflow` 是外部 CJS 包，已从 Vite 预构建中排除
 - 前端使用 `/@/` 路径别名（带前导斜杠）导入 `src/` 下的文件
 - 后端支持国产数据库（达梦 DM8、人大金仓 KingBase），驱动已包含在 pom 中
+
+## 开发实践
+
+### 后端重启（必须级联编译）
+
+修改 `jeecg-system-biz` 模块代码后，必须从 `jeecg-system-start` 目录执行 `mvn spring-boot:run -am`，`-am` 参数确保依赖模块被级联编译：
+
+```bash
+# 一键重启脚本
+./restart-backend.sh
+
+# 或手动执行
+cd jeecg-boot/jeecg-module-system/jeecg-system-start
+mvn spring-boot:run -am
+```
+
+**常见踩坑**: `mvn spring-boot:run -pl jeecg-module-system/jeecg-system-start` 不编译 biz 模块，导致 Controller 404。
+
+### Flyway 现状
+
+- Flyway 在 `application-dev.yml` 中 `enabled: false`
+- `FlywayAutoConfiguration` 被排除（与 flyway-core 7.15.0 不兼容 Spring Boot 3.5.5）
+- **建表/字典 SQL 需通过 Docker 手动执行**: `docker exec -i jeecg-boot-mysql mysql -uroot -proot jeecg-boot < xxx.sql`
+- Flyway 迁移文件放在 `flyway/sql/mysql/` 下以备将来升级后自动执行
+
+### 字典编码防乱码
+
+新建模块测试必须包含 `assertDictText` 字典翻译验证，确保中文不出现 `å­˜å‚¨` 等 Latin-1 误解码乱码。详见 `test-templates/api-test.template.ts`。
