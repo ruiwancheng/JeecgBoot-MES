@@ -24,6 +24,12 @@ JeecgBoot 3.9.2 — 企业级 AI 低代码平台，支持"低代码 + 零代码"
 | `/start-task` | Plan → Sprint Contract → Approval | Starting new work |
 | `/review` | Self-check + verification | Before claiming done |
 | `/session-wrap` | Pattern discovery → harness improvement | End of session |
+| `/test-all` | 前后端分层测试 (L1+L2+L3) | 验证模块质量 |
+| `/test-api` | 后端 API 测试 (JUnit + TS) | 接口验证 |
+| `/test-e2e` | 前端 E2E 冒烟 (Playwright) | UI 关键路径验证 |
+| `/harness-check` | AI harness 健康自检 | 定期审计规则/命令/工具链 |
+
+**模块清单**: `.claude/features.json` — 记录已完成模块、表结构、状态
 
 ## 项目结构
 
