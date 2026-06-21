@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+//update-begin---author:developer ---date:2026-06-21  for：客户管理模块-BsCustomerController-----------
 /**
  * @Description: 客户管理
  * @Author: jeecg-boot
@@ -110,3 +111,5 @@ public class BsCustomerController {
         return Result.OK(bsCustomer);
     }
 }
+
+//update-end---author:developer ---date:2026-06-21  for：客户管理模块-BsCustomerController-----------

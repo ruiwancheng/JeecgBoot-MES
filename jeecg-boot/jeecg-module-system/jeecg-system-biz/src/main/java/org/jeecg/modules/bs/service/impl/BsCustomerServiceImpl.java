@@ -6,6 +6,7 @@ import org.jeecg.modules.bs.mapper.BsCustomerMapper;
 import org.jeecg.modules.bs.service.IBsCustomerService;
 import org.springframework.stereotype.Service;
 
+//update-begin---author:developer ---date:2026-06-21  for：客户管理模块-BsCustomerServiceImpl-----------
 /**
  * @Description: 客户管理
  * @Author: jeecg-boot
@@ -15,3 +16,5 @@ import org.springframework.stereotype.Service;
 @Service
 public class BsCustomerServiceImpl extends ServiceImpl<BsCustomerMapper, BsCustomer> implements IBsCustomerService {
 }
+
+//update-end---author:developer ---date:2026-06-21  for：客户管理模块-BsCustomerServiceImpl-----------

@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"$CLAUDE_TOOL_INPUT\" | python3 -c \"\nimport sys, json, re\ntry:\n    data = json.load(sys.stdin)\n    cmd = data.get('command', '')\n    danger_patterns = [\n        (r'git push.*--force', 'git push --force is blocked.'),\n        (r'DROP\\\\s+TABLE', 'DROP TABLE is blocked.'),\n        (r'DELETE\\\\s+FROM\\\\s+\\\\w+\\\\s*;', 'DELETE without WHERE is blocked.'),\n        (r'rm\\\\s+-rf\\\\s+/', 'rm -rf / is blocked.'),\n        (r'git\\\\s+reset\\\\s+--hard', 'git reset --hard requires explicit approval.'),\n    ]\n    for pattern, msg in danger_patterns:\n        if re.search(pattern, cmd, re.IGNORECASE):\n            print(f'BLOCKED: {msg}', file=sys.stderr)\n            sys.exit(2)\nexcept Exception:\n    pass\n\""
+          }
+        ]
+      }
+    ]
+  }
+}

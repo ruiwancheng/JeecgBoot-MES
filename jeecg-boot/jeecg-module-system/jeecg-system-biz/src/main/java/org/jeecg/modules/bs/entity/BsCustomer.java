@@ -1,3 +1,4 @@
+//update-begin---author:developer ---date:2026-06-21  for：客户管理模块-实体-----------
 package org.jeecg.modules.bs.entity;
 
 import java.io.Serializable;
@@ -190,3 +191,4 @@ public class BsCustomer implements Serializable {
     @Schema(description = "所属部门")
     private String sysOrgCode;
 }
+//update-end---author:developer ---date:2026-06-21  for：客户管理模块-实体-----------
