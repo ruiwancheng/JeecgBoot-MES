@@ -1,0 +1,8 @@
+{
+  "project": "JeecgBoot MES/ERP",
+  "lastUpdated": "2026-06-21",
+  "features": [
+    { "name": "仓库管理", "module": "warehouse", "table": "warehouse", "type": "主子表", "status": "✅ 完成" },
+    { "name": "客户管理", "module": "bs/customer", "table": "bs_customer", "type": "单表", "status": "✅ 完成" }
+  ]
+}

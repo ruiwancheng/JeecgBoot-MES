@@ -24,8 +24,10 @@ Look for opportunities to improve the harness:
 - [ ] Is `CLAUDE.md` under 200 lines? (If over, split into rules)
 - [ ] Are all `.claude/rules/` files still relevant?
 - [ ] Are there unused commands in `.claude/commands/`?
-- [ ] Is `.claude/memory/` stale? (Clean up completed plans)
+- [ ] Is `.claude/memory/` stale? (Clean up completed plans, archive old plans)
+- [ ] Is `settings.local.json` bloated? (Clean up one-time debug allow rules)
 - [ ] Any new patterns worth codifying?
+- [ ] Run affected test suite: `./test/run-all.sh <module>` to verify session changes didn't break anything
 
 ### Step 4: Session Summary
 Output a summary for the user:
