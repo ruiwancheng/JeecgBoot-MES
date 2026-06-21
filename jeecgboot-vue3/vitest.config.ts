@@ -6,10 +6,11 @@ import { resolve } from 'path';
  * Vitest 组件测试配置
  *
  * 与 Vite 共用插件和别名配置
- * 运行: npx vitest run
- * 监听: npx vitest
+ * 运行: npx vitest run --config vitest.config.ts
+ * 监听: npx vitest --config vitest.config.ts
  *
- * 测试文件位置: src/**\/__tests__/*.test.ts
+ * 测试文件位置: test/vitest/ 目录下
+ * 说明: 测试已从 src/**\/__tests__/ 移至项目根 test/vitest/ 统一管理
  */
 export default defineConfig({
   plugins: [vue()],
@@ -18,8 +19,8 @@ export default defineConfig({
     environment: 'jsdom',
     // 全局设置 (describe/it/expect 无需 import)
     globals: true,
-    // 测试文件匹配
-    include: ['src/**/__tests__/*.test.ts', 'src/**/*.test.ts'],
+    // 测试文件匹配 (相对于项目根)
+    include: ['../test/vitest/**/*.test.ts'],
     // 排除
     exclude: ['node_modules', 'tests/server'],
     // 清理 mock
@@ -30,6 +31,12 @@ export default defineConfig({
   resolve: {
     alias: {
       '/@/': resolve(__dirname, 'src') + '/',
+    },
+  },
+  server: {
+    // 允许访问项目根目录下的 test/vitest/ 目录
+    fs: {
+      allow: ['..'],
     },
   },
 });

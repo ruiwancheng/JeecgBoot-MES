@@ -157,7 +157,7 @@ run_ui_tests() {
   cd "$PROJECT_DIR/jeecgboot-vue3"
 
   # 检查是否有对应模块的测试文件
-  TEST_FILES=$(find src -path "*/${MODULE}/__tests__/*.test.ts" 2>/dev/null || true)
+  TEST_FILES=$(find "$PROJECT_DIR/test/vitest" -path "*/${MODULE}/*.test.ts" 2>/dev/null || true)
   if [ -z "$TEST_FILES" ]; then
     echo -e "  ${YELLOW}⏭️  跳过 (${MODULE} 模块无 Vitest 测试文件)${NC}"
     echo ""

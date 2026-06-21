@@ -1,14 +1,31 @@
 /**
- * 仓库管理 — 后端接口测试
+ * 仓库管理 — 后端 REST API 集成测试 (TypeScript)
  *
- * 前置条件: export TEST_TOKEN=你的token（F12→Network→X-Access-Token复制）
- * 运行: npx tsx test/api/warehouse.test.ts
+ * ============================================================
+ * 测试目标: 验证仓库/库位 HTTP 接口的完整生命周期
  *
- * 测试覆盖：
- *   1. 未登录鉴权（401）
- *   2. 主表 CRUD（分页列表 / 新增 / 编辑 / 删除 / 详情查询）
- *   3. 子表 CRUD（库位新增 / 编辑 / 删除 / 分页列表）
- *   4. 边界条件（空参数 / 非法ID / 不存在的记录）
+ * 执行流程:
+ *   未登录 → 列表(空) → 新增主表 → 查详情 → 编辑主表
+ *   → 查子表(空) → 新增子表 → 字典验证 → 编辑子表 → 删除子表
+ *   → 边界测试 → 自动清理
+ *
+ * 前置条件:
+ *   export TEST_TOKEN="<从浏览器 F12→Network→X-Access-Token 复制>"
+ *   或脚本自动从 /sys/login 获取
+ *
+ * 运行:
+ *   npx tsx test/api/warehouse.test.ts
+ *
+ * 测试覆盖:
+ *   1. 鉴权守卫 — 无 Token 请求应返回 401
+ *   2. 主表 CRUD — 列表分页 / 新增 / 编辑 / 删除 / 详情
+ *   3. 子表 CRUD — 库位新增 / 编辑 / 删除 / 按主表ID查列表
+ *   4. 字典翻译 — assertDictText 验证 _dictText 值正确 (防编码乱码)
+ *   5. 边界条件 — 不存在ID / 空参数 / 乱码检测
+ *
+ * 依赖:
+ *   test/utils/test-helper.ts — HTTP 封装 + 断言辅助
+ * ============================================================
  */
 
 import { getToken, get, post, put, del, assertSuccess, assertFail } from '../utils/test-helper';
