@@ -25,11 +25,12 @@ spring:
 #    lazy-initialization: true
   flyway:
     # 是否启用flyway
-    enabled: false
+    enabled: true
     # 迁移sql脚本存放路径
     locations: classpath:flyway/sql/mysql
     # 是否关闭要清除已有库下的表功能,生产环境必须为true,否则会删库，非常重要！！！
     clean-disabled: true
+    validate-on-migrate: false
   servlet:
     multipart:
       max-file-size: 10MB
@@ -110,7 +111,6 @@ spring:
   autoconfigure:
     exclude:
       - com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure
-      - org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration
   datasource:
     druid:
       stat-view-servlet:
@@ -344,7 +344,7 @@ jeecg:
       secret-key: ??
   #xxl-job配置
   xxljob:
-    enabled: false
+    enabled: true
     adminAddresses: http://127.0.0.1:9080/xxl-job-admin
     appname: ${spring.application.name}
     accessToken: ''
